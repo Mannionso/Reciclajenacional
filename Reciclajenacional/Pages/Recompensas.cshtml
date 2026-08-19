@@ -1,0 +1,58 @@
+﻿@page
+@model ReciclajeNacional.Pages.RecompensasModel
+
+@{
+    ViewData["Title"] = "Recompensas";
+}
+
+<h1>Recompensas</h1>
+
+<form method="post">
+
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="Recompensa.Nombre" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Descripción:</label>
+        <input asp-for="Recompensa.Descripcion" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Puntos necesarios:</label>
+        <input asp-for="Recompensa.PuntosNecesarios" type="number" />
+    </div>
+
+    <br />
+
+    <button type="submit">Registrar Recompensa</button>
+
+</form>
+
+<hr />
+
+<h2>Recompensas disponibles</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Puntos necesarios</th>
+    </tr>
+
+    @foreach (var recompensa in Model.Recompensas)
+    {
+        <tr>
+            <td>@recompensa.IdRecompensa</td>
+            <td>@recompensa.Nombre</td>
+            <td>@recompensa.Descripcion</td>
+            <td>@recompensa.PuntosNecesarios</td>
+        </tr>
+    }
+</table>

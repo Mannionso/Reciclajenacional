@@ -1,0 +1,54 @@
+﻿@page
+@model ReciclajeNacional.Pages.CanjesModel
+
+@{
+    ViewData["Title"] = "Canjes";
+}
+
+<h1>Canjear Recompensa</h1>
+
+@if (!string.IsNullOrEmpty(Model.Mensaje))
+{
+    <p><strong>@Model.Mensaje</strong></p>
+}
+
+<form method="post">
+
+    <div>
+        <label>Usuario:</label>
+
+        <select asp-for="Canje.IdUsuario">
+            <option value="">Seleccione un usuario</option>
+
+            @foreach (var usuario in Model.Usuarios)
+            {
+                <option value="@usuario.IdUsuario">
+                    @usuario.Nombre - @usuario.Puntos puntos
+                </option>
+            }
+        </select>
+    </div>
+
+    <br />
+
+    <div>
+        <label>Recompensa:</label>
+
+        <select asp-for="Canje.IdRecompensa">
+            <option value="">Seleccione una recompensa</option>
+
+            @foreach (var recompensa in Model.Recompensas)
+            {
+                <option value="@recompensa.IdRecompensa">
+                    @recompensa.Nombre -
+                    @recompensa.PuntosNecesarios puntos
+                </option>
+            }
+        </select>
+    </div>
+
+    <br />
+
+    <button type="submit">Realizar Canje</button>
+
+</form>

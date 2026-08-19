@@ -1,0 +1,32 @@
+﻿@page
+@model ReciclajeNacional.Pages.EstadisticasModel
+
+@{
+    ViewData["Title"] = "Estadísticas";
+}
+
+<h1>Estadísticas de Reciclaje</h1>
+
+<hr />
+
+<h2>Total de material reciclado</h2>
+
+<h3>@Model.TotalKg Kg</h3>
+
+<hr />
+
+<h2>Total de puntos generados</h2>
+
+<h3>@Model.TotalPuntos puntos</h3>
+
+<hr />
+
+<h2>Total de registros de reciclaje</h2>
+
+<h3>@Model.TotalRegistros registros</h3>
+
+<hr />
+
+<h2>Usuarios registrados</h2>
+
+<h3>@Model.TotalUsuarios usuarios</h3>

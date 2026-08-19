@@ -1,15 +1,34 @@
+using Microsoft.Data.SqlClient;
+using ReciclajeNacional;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// agregar servicios para razor pages
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// probar conexion con la base de datos
+var conexion = new ConexionBD();
+
+using (SqlConnection cn = conexion.ObtenerConexion())
+{
+    try
+    {
+        cn.Open();
+        Console.WriteLine("CONEXION EXITOSA A LA BASE DE DATOS");
+        cn.Close();
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine("ERROR DE CONEXION: " + ex.Message);
+    }
+}
+
+// configuracion de la aplicacion
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -20,6 +39,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
 app.MapRazorPages()
    .WithStaticAssets();
 

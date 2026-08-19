@@ -1,0 +1,58 @@
+﻿@page
+@model ReciclajeNacional.Pages.CentrosModel
+
+@{
+    ViewData["Title"] = "Centros de Reciclaje";
+}
+
+<h1>Centros de Reciclaje</h1>
+
+<form method="post">
+
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="Centro.Nombre" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Dirección:</label>
+        <input asp-for="Centro.Direccion" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Horario:</label>
+        <input asp-for="Centro.Horario" />
+    </div>
+
+    <br />
+
+    <button type="submit">Registrar Centro</button>
+
+</form>
+
+<hr />
+
+<h2>Centros registrados</h2>
+
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Dirección</th>
+        <th>Horario</th>
+    </tr>
+
+    @foreach (var centro in Model.Centros)
+    {
+        <tr>
+            <td>@centro.IdCentro</td>
+            <td>@centro.Nombre</td>
+            <td>@centro.Direccion</td>
+            <td>@centro.Horario</td>
+        </tr>
+    }
+</table>

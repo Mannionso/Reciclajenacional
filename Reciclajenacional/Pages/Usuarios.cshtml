@@ -1,0 +1,60 @@
+﻿@page
+@model ReciclajeNacional.Pages.UsuariosModel
+
+<h1>Usuarios</h1>
+
+<form method="post">
+
+    <div>
+        <label>Nombre:</label>
+        <input asp-for="Usuario.Nombre" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Correo:</label>
+        <input asp-for="Usuario.Correo" type="email" />
+    </div>
+
+    <br />
+
+    <div>
+        <label>Provincia:</label>
+        <input asp-for="Usuario.Provincia" />
+    </div>
+
+    <br />
+
+    <button type="submit">Registrar Usuario</button>
+
+</form>
+
+<hr />
+
+<h2>Usuarios registrados</h2>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Provincia</th>
+            <th>Puntos</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var usuario in Model.Usuarios)
+        {
+            <tr>
+                <td>@usuario.IdUsuario</td>
+                <td>@usuario.Nombre</td>
+                <td>@usuario.Correo</td>
+                <td>@usuario.Provincia</td>
+                <td>@usuario.Puntos</td>
+            </tr>
+        }
+    </tbody>
+</table>
