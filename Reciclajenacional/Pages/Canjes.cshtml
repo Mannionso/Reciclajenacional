@@ -1,54 +1,29 @@
 ﻿@page
 @model ReciclajeNacional.Pages.CanjesModel
 
-@{
-    ViewData["Title"] = "Canjes";
-}
+<h1>Canjes</h1>
 
-<h1>Canjear Recompensa</h1>
+<table border="1">
+    <thead>
+        <tr>
+            <th>ID Canje</th>
+            <th>ID Usuario</th>
+            <th>ID Recompensa</th>
+            <th>Fecha</th>
+            <th>Puntos Utilizados</th>
+        </tr>
+    </thead>
 
-@if (!string.IsNullOrEmpty(Model.Mensaje))
-{
-    <p><strong>@Model.Mensaje</strong></p>
-}
-
-<form method="post">
-
-    <div>
-        <label>Usuario:</label>
-
-        <select asp-for="Canje.IdUsuario">
-            <option value="">Seleccione un usuario</option>
-
-            @foreach (var usuario in Model.Usuarios)
-            {
-                <option value="@usuario.IdUsuario">
-                    @usuario.Nombre - @usuario.Puntos puntos
-                </option>
-            }
-        </select>
-    </div>
-
-    <br />
-
-    <div>
-        <label>Recompensa:</label>
-
-        <select asp-for="Canje.IdRecompensa">
-            <option value="">Seleccione una recompensa</option>
-
-            @foreach (var recompensa in Model.Recompensas)
-            {
-                <option value="@recompensa.IdRecompensa">
-                    @recompensa.Nombre -
-                    @recompensa.PuntosNecesarios puntos
-                </option>
-            }
-        </select>
-    </div>
-
-    <br />
-
-    <button type="submit">Realizar Canje</button>
-
-</form>
+    <tbody>
+        @foreach (var canje in Model.Canjes)
+        {
+            <tr>
+                <td>@canje.IdCanje</td>
+                <td>@canje.IdUsuario</td>
+                <td>@canje.IdRecompensa</td>
+                <td>@canje.Fecha</td>
+                <td>@canje.PuntosUtilizados</td>
+            </tr>
+        }
+    </tbody>
+</table>

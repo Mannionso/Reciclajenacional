@@ -1,31 +1,23 @@
-using Microsoft.Data.SqlClient;
-using ReciclajeNacional;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// agregar servicios para razor pages
+// Agregar Razor Pages
 builder.Services.AddRazorPages();
+
+// Conexión a la base de datos
+builder.Services.AddSingleton<ReciclajeNacional.ConexionBD>();
+
+// Configurar Session
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
-// probar conexion con la base de datos
-var conexion = new ConexionBD();
-
-using (SqlConnection cn = conexion.ObtenerConexion())
-{
-    try
-    {
-        cn.Open();
-        Console.WriteLine("CONEXION EXITOSA A LA BASE DE DATOS");
-        cn.Close();
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine("ERROR DE CONEXION: " + ex.Message);
-    }
-}
-
-// configuracion de la aplicacion
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -34,13 +26,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseStaticFiles();
+
 app.UseRouting();
+
+// IMPORTANTE: activar Session
+app.UseSession();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
-
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages();
 
 app.Run();

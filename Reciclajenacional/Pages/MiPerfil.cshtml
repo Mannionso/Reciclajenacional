@@ -1,0 +1,191 @@
+﻿@page
+@model ReciclajeNacional.Pages.MiPerfilModel
+
+@{
+    ViewData["Title"] = "Mi perfil";
+}
+
+<div class="perfil-container">
+
+    <div class="perfil-card">
+
+        <h1>Mi perfil</h1>
+
+        <p class="subtitulo">
+            Información de tu cuenta
+        </p>
+
+        <!-- Información del usuario -->
+
+        <div class="dato">
+            <span>Nombre</span>
+            <strong>@Model.Nombre</strong>
+        </div>
+
+        <div class="dato">
+            <span>Correo</span>
+            <strong>@Model.Correo</strong>
+        </div>
+
+        <div class="dato">
+            <span>Provincia</span>
+            <strong>@Model.Provincia</strong>
+        </div>
+
+        <div class="dato">
+            <span>Puntos</span>
+            <strong>@Model.Puntos</strong>
+        </div>
+
+        <!-- Botones -->
+
+        <div class="botones-perfil">
+
+            <a asp-page="/Index" class="btn-volver">
+                Volver al Home
+            </a>
+
+            <a asp-page="/EditarPerfil" class="btn-editar">
+                Editar perfil
+            </a>
+
+        </div>
+
+        <!-- Cerrar sesión -->
+
+        <form method="post"
+              asp-page-handler="CerrarSesion"
+              class="form-cerrar">
+
+            <button type="submit" class="btn-cerrar">
+                Cerrar sesión
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<style>
+
+    body {
+        background-color: #111111;
+        color: white;
+    }
+
+    /* Contenedor */
+
+    .perfil-container {
+        min-height: 75vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+        background-color: #111111;
+    }
+
+    /* Tarjeta */
+
+    .perfil-card {
+        width: 410px;
+        background-color: #1f1f1f;
+        padding: 35px 32px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.45);
+    }
+
+        .perfil-card h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+    .subtitulo {
+        text-align: center;
+        color: #cccccc;
+        margin-bottom: 30px;
+    }
+
+    /* Datos */
+
+    .dato {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+        border-bottom: 1px solid #3a3a3a;
+    }
+
+        .dato span {
+            color: #bbbbbb;
+            font-size: 15px;
+        }
+
+        .dato strong {
+            color: white;
+            font-size: 15px;
+        }
+
+    /* Botones */
+
+    .botones-perfil {
+        display: flex;
+        gap: 10px;
+        margin-top: 27px;
+    }
+
+    .btn-volver,
+    .btn-editar {
+        flex: 1;
+        padding: 13px;
+        border-radius: 6px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .btn-volver {
+        background-color: #666666;
+        color: white;
+    }
+
+        .btn-volver:hover {
+            background-color: #555555;
+            color: white;
+        }
+
+    .btn-editar {
+        background-color: #087fdb;
+        color: white;
+    }
+
+        .btn-editar:hover {
+            background-color: #066bb8;
+            color: white;
+        }
+
+    /* Cerrar sesión */
+
+    .form-cerrar {
+        margin-top: 15px;
+    }
+
+    .btn-cerrar {
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 6px;
+        background-color: #8b2222;
+        color: white;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .btn-cerrar:hover {
+            background-color: #b52b2b;
+        }
+
+</style>

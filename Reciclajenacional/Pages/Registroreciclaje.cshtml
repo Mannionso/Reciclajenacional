@@ -2,32 +2,17 @@
 @model ReciclajeNacional.Pages.RegistroreciclajeModel
 
 @{
-    ViewData["Title"] = "Registro de Reciclaje";
+    ViewData["Title"] = "Registrar Reciclaje";
 }
 
-<h1>Registro de Reciclaje</h1>
+<h1>Registrar Reciclaje</h1>
 
 <form method="post">
 
     <div>
-        <label>Usuario:</label>
-        <select asp-for="Registro.IdUsuario">
-            <option value="">Seleccione un usuario</option>
-
-            @foreach (var usuario in Model.Usuarios)
-            {
-                <option value="@usuario.IdUsuario">
-                    @usuario.Nombre
-                </option>
-            }
-        </select>
-    </div>
-
-    <br />
-
-    <div>
         <label>Material:</label>
-        <select asp-for="Registro.IdMaterial">
+
+        <select asp-for="Registro.IdMaterial" required>
             <option value="">Seleccione un material</option>
 
             @foreach (var material in Model.Materiales)
@@ -37,62 +22,32 @@
                 </option>
             }
         </select>
-    </div>
 
-    <br />
-
-    <div>
-        <label>Centro de reciclaje:</label>
-        <select asp-for="Registro.IdCentro">
-            <option value="">Seleccione un centro</option>
-
-            @foreach (var centro in Model.Centros)
-            {
-                <option value="@centro.IdCentro">
-                    @centro.Nombre
-                </option>
-            }
-        </select>
+        <span asp-validation-for="Registro.IdMaterial"></span>
     </div>
 
     <br />
 
     <div>
         <label>Cantidad en Kg:</label>
-        <input asp-for="Registro.CantidadKg" type="number" step="0.01" />
+
+        <input asp-for="Registro.CantidadKg"
+               type="number"
+               step="0.01"
+               min="0.01"
+               required />
+
+        <span asp-validation-for="Registro.CantidadKg"></span>
     </div>
 
     <br />
 
-    <button type="submit">Registrar Reciclaje</button>
+    <button type="submit">
+        Registrar Reciclaje
+    </button>
 
 </form>
 
-<hr />
-
-<h2>Registros de reciclaje</h2>
-
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Usuario</th>
-        <th>Material</th>
-        <th>Centro</th>
-        <th>Kg</th>
-        <th>Fecha</th>
-        <th>Puntos</th>
-    </tr>
-
-    @foreach (var registro in Model.Registros)
-    {
-        <tr>
-            <td>@registro.IdRegistro</td>
-            <td>Registro #@registro.IdUsuario</td>
-            <td>Material #@registro.IdMaterial</td>
-            <td>Centro #@registro.IdCentro</td>
-            <td>@registro.CantidadKg</td>
-            <td>@registro.Fecha</td>
-            <td>@registro.PuntosObtenidos</td>
-        </tr>
-    }
-</table>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

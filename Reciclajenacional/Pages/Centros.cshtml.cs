@@ -33,17 +33,20 @@ namespace ReciclajeNacional.Pages
 
                 string consulta = @"
                     INSERT INTO CentroReciclaje
-                    (Nombre, Direccion, Horario)
+                    (Nombre, Provincia, Direccion, Horario)
                     VALUES
-                    (@Nombre, @Direccion, @Horario)";
+                    (@Nombre, @Provincia, @Direccion, @Horario)";
 
                 using (SqlCommand cmd = new SqlCommand(consulta, cn))
                 {
                     cmd.Parameters.AddWithValue("@Nombre", Centro.Nombre);
+                    cmd.Parameters.AddWithValue("@Provincia", Centro.Provincia);
                     cmd.Parameters.AddWithValue("@Direccion", Centro.Direccion);
                     cmd.Parameters.AddWithValue("@Horario", Centro.Horario);
 
-                    cmd.ExecuteNonQuery();
+                    int filas = cmd.ExecuteNonQuery();
+
+                    Console.WriteLine("FILAS INSERTADAS: " + filas);
                 }
             }
 
@@ -60,8 +63,9 @@ namespace ReciclajeNacional.Pages
             {
                 cn.Open();
 
-                string consulta =
-                    "SELECT IdCentro, Nombre, Direccion, Horario FROM CentroReciclaje";
+                string consulta = @"
+                    SELECT IdCentro, Nombre, Provincia, Direccion, Horario
+                    FROM CentroReciclaje";
 
                 using (SqlCommand cmd = new SqlCommand(consulta, cn))
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -72,6 +76,7 @@ namespace ReciclajeNacional.Pages
                         {
                             IdCentro = Convert.ToInt32(reader["IdCentro"]),
                             Nombre = reader["Nombre"].ToString(),
+                            Provincia = reader["Provincia"].ToString(),
                             Direccion = reader["Direccion"].ToString(),
                             Horario = reader["Horario"].ToString()
                         });
