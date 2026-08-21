@@ -5,28 +5,92 @@
     ViewData["Title"] = "Estadísticas";
 }
 
-<h1>Estadísticas de Reciclaje</h1>
+<div class="estadisticas">
 
-<hr />
+    <h1>Estadísticas de Reciclaje</h1>
 
-<h2>Total de material reciclado</h2>
+    <p class="descripcion">
+        Consulta los datos generales de reciclaje registrados en la plataforma.
+    </p>
 
-<h3>@Model.TotalKg Kg</h3>
+    <div class="estadisticas-container">
 
-<hr />
+        <div class="estadistica">
+            <h2>Total de material reciclado</h2>
+            <p class="numero">@Model.TotalKg.ToString("0.00") Kg</p>
+        </div>
 
-<h2>Total de puntos generados</h2>
+        <div class="estadistica">
+            <h2>Total de puntos generados</h2>
+            <p class="numero">@Model.TotalPuntos puntos</p>
+        </div>
 
-<h3>@Model.TotalPuntos puntos</h3>
+        <div class="estadistica">
+            <h2>Total de registros de reciclaje</h2>
+            <p class="numero">@Model.TotalRegistros registros</p>
+        </div>
 
-<hr />
+    </div>
 
-<h2>Total de registros de reciclaje</h2>
+</div>
 
-<h3>@Model.TotalRegistros registros</h3>
+<style>
 
-<hr />
+    .estadisticas {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+    }
 
-<h2>Usuarios registrados</h2>
+        .estadisticas h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
 
-<h3>@Model.TotalUsuarios usuarios</h3>
+    .descripcion {
+        font-size: 18px;
+        color: #cccccc;
+        margin-bottom: 40px;
+    }
+
+    .estadisticas-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .estadistica {
+        background-color: #1f1f1f;
+        border-radius: 10px;
+        padding: 30px 20px;
+        min-height: 170px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+        .estadistica h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+    .numero {
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    @@media (max-width: 768px) {
+
+        .estadisticas-container {
+            grid-template-columns: 1fr;
+        }
+
+        .estadisticas h1 {
+            font-size: 32px;
+        }
+    }
+
+</style>

@@ -15,12 +15,23 @@ namespace ReciclajeNacional.Pages
         }
 
         [BindProperty]
-        public RegistroReciclaje Registro { get; set; } = new RegistroReciclaje();
+        public RegistroReciclaje Registro { get; set; } =
+            new RegistroReciclaje();
 
-        public List<Material> Materiales { get; set; } = new List<Material>();
+        public List<Material> Materiales { get; set; } =
+            new List<Material>();
 
         public void OnGet()
         {
+            int? idUsuario =
+                HttpContext.Session.GetInt32("IdUsuario");
+
+            if (idUsuario == null)
+            {
+                Response.Redirect("/Login");
+                return;
+            }
+
             CargarMateriales();
         }
 
@@ -56,144 +67,176 @@ namespace ReciclajeNacional.Pages
                 return Page();
             }
 
-            string conexion =
-                _configuration.GetConnectionString("Conexion");
-
-            using (SqlConnection cn = new SqlConnection(conexion))
+            try
             {
-                cn.Open();
+                string conexion =
+                    _configuration.GetConnectionString("Conexion");
 
-                int idCentro = 0;
-
-                string consultaCentro = @"
-                    SELECT IdCentro
-                    FROM Usuario
-                    WHERE IdUsuario = @IdUsuario";
-
-                using (SqlCommand cmd =
-                    new SqlCommand(consultaCentro, cn))
+                using (SqlConnection cn =
+                    new SqlConnection(conexion))
                 {
-                    cmd.Parameters.AddWithValue(
-                        "@IdUsuario",
-                        Registro.IdUsuario);
+                    cn.Open();
 
-                    object resultado = cmd.ExecuteScalar();
+                    int idCentro = 0;
 
-                    if (resultado != null)
+                    string consultaCentro = @"
+                        SELECT IdCentro
+                        FROM Usuario
+                        WHERE IdUsuario = @IdUsuario";
+
+                    using (SqlCommand cmd =
+                        new SqlCommand(consultaCentro, cn))
                     {
-                        idCentro = Convert.ToInt32(resultado);
+                        cmd.Parameters.AddWithValue(
+                            "@IdUsuario",
+                            Registro.IdUsuario);
+
+                        object resultado =
+                            cmd.ExecuteScalar();
+
+                        if (resultado != null &&
+                            resultado != DBNull.Value)
+                        {
+                            idCentro =
+                                Convert.ToInt32(resultado);
+                        }
                     }
-                }
 
-                if (idCentro == 0)
-                {
-                    ModelState.AddModelError(
-                        "",
-                        "No se encontró un centro asignado.");
-
-                    CargarMateriales();
-                    return Page();
-                }
-
-                decimal puntosPorKg = 0;
-
-                string consultaMaterial = @"
-                    SELECT PuntosPorKg
-                    FROM Material
-                    WHERE IdMaterial = @IdMaterial";
-
-                using (SqlCommand cmd =
-                    new SqlCommand(consultaMaterial, cn))
-                {
-                    cmd.Parameters.AddWithValue(
-                        "@IdMaterial",
-                        Registro.IdMaterial);
-
-                    object resultado = cmd.ExecuteScalar();
-
-                    if (resultado != null)
+                    if (idCentro == 0)
                     {
+                        ModelState.AddModelError(
+                            "",
+                            "No se encontró un centro de reciclaje asignado.");
+
+                        CargarMateriales();
+                        return Page();
+                    }
+
+                    decimal puntosPorKg = 0;
+
+                    string consultaMaterial = @"
+                        SELECT PuntosPorKg
+                        FROM Material
+                        WHERE IdMaterial = @IdMaterial";
+
+                    using (SqlCommand cmd =
+                        new SqlCommand(consultaMaterial, cn))
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@IdMaterial",
+                            Registro.IdMaterial);
+
+                        object resultado =
+                            cmd.ExecuteScalar();
+
+                        if (resultado == null ||
+                            resultado == DBNull.Value)
+                        {
+                            ModelState.AddModelError(
+                                "",
+                                "El material seleccionado no existe.");
+
+                            CargarMateriales();
+                            return Page();
+                        }
+
                         puntosPorKg =
                             Convert.ToDecimal(resultado);
                     }
+
+                    Registro.PuntosObtenidos =
+                        Convert.ToInt32(
+                            Math.Round(
+                                Registro.CantidadKg *
+                                puntosPorKg));
+
+                    string insertarRegistro = @"
+                        INSERT INTO RegistroReciclaje
+                        (
+                            IdUsuario,
+                            IdMaterial,
+                            IdCentro,
+                            CantidadKg,
+                            Fecha,
+                            PuntosObtenidos
+                        )
+                        VALUES
+                        (
+                            @IdUsuario,
+                            @IdMaterial,
+                            @IdCentro,
+                            @CantidadKg,
+                            @Fecha,
+                            @PuntosObtenidos
+                        )";
+
+                    using (SqlCommand cmd =
+                        new SqlCommand(insertarRegistro, cn))
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@IdUsuario",
+                            Registro.IdUsuario);
+
+                        cmd.Parameters.AddWithValue(
+                            "@IdMaterial",
+                            Registro.IdMaterial);
+
+                        cmd.Parameters.AddWithValue(
+                            "@IdCentro",
+                            idCentro);
+
+                        cmd.Parameters.AddWithValue(
+                            "@CantidadKg",
+                            Registro.CantidadKg);
+
+                        cmd.Parameters.AddWithValue(
+                            "@Fecha",
+                            DateTime.Now);
+
+                        cmd.Parameters.AddWithValue(
+                            "@PuntosObtenidos",
+                            Registro.PuntosObtenidos);
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    string actualizarUsuario = @"
+                        UPDATE Usuario
+                        SET Puntos = Puntos + @Puntos
+                        WHERE IdUsuario = @IdUsuario";
+
+                    using (SqlCommand cmd =
+                        new SqlCommand(actualizarUsuario, cn))
+                    {
+                        cmd.Parameters.AddWithValue(
+                            "@Puntos",
+                            Registro.PuntosObtenidos);
+
+                        cmd.Parameters.AddWithValue(
+                            "@IdUsuario",
+                            Registro.IdUsuario);
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
-                Registro.PuntosObtenidos =
-                    Convert.ToInt32(
-                        Math.Round(
-                            Registro.CantidadKg * puntosPorKg));
+                TempData["MensajeRegistro"] =
+                    "Reciclaje registrado correctamente. Obtuviste " +
+                    Registro.PuntosObtenidos +
+                    " puntos.";
 
-                string insertarRegistro = @"
-                    INSERT INTO RegistroReciclaje
-                    (
-                        IdUsuario,
-                        IdMaterial,
-                        IdCentro,
-                        CantidadKg,
-                        Fecha,
-                        PuntosObtenidos
-                    )
-                    VALUES
-                    (
-                        @IdUsuario,
-                        @IdMaterial,
-                        @IdCentro,
-                        @CantidadKg,
-                        @Fecha,
-                        @PuntosObtenidos
-                    )";
-
-                using (SqlCommand cmd =
-                    new SqlCommand(insertarRegistro, cn))
-                {
-                    cmd.Parameters.AddWithValue(
-                        "@IdUsuario",
-                        Registro.IdUsuario);
-
-                    cmd.Parameters.AddWithValue(
-                        "@IdMaterial",
-                        Registro.IdMaterial);
-
-                    cmd.Parameters.AddWithValue(
-                        "@IdCentro",
-                        idCentro);
-
-                    cmd.Parameters.AddWithValue(
-                        "@CantidadKg",
-                        Registro.CantidadKg);
-
-                    cmd.Parameters.AddWithValue(
-                        "@Fecha",
-                        DateTime.Now);
-
-                    cmd.Parameters.AddWithValue(
-                        "@PuntosObtenidos",
-                        Registro.PuntosObtenidos);
-
-                    cmd.ExecuteNonQuery();
-                }
-
-                string actualizarUsuario = @"
-                    UPDATE Usuario
-                    SET Puntos = Puntos + @Puntos
-                    WHERE IdUsuario = @IdUsuario";
-
-                using (SqlCommand cmd =
-                    new SqlCommand(actualizarUsuario, cn))
-                {
-                    cmd.Parameters.AddWithValue(
-                        "@Puntos",
-                        Registro.PuntosObtenidos);
-
-                    cmd.Parameters.AddWithValue(
-                        "@IdUsuario",
-                        Registro.IdUsuario);
-
-                    cmd.ExecuteNonQuery();
-                }
+                return RedirectToPage();
             }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(
+                    "",
+                    "Ocurrió un error al registrar el reciclaje: " +
+                    ex.Message);
 
-            return RedirectToPage();
+                CargarMateriales();
+                return Page();
+            }
         }
 
         private void CargarMateriales()
@@ -203,7 +246,8 @@ namespace ReciclajeNacional.Pages
             string conexion =
                 _configuration.GetConnectionString("Conexion");
 
-            using (SqlConnection cn = new SqlConnection(conexion))
+            using (SqlConnection cn =
+                new SqlConnection(conexion))
             {
                 cn.Open();
 
@@ -213,7 +257,8 @@ namespace ReciclajeNacional.Pages
                         Nombre,
                         Descripcion,
                         PuntosPorKg
-                    FROM Material";
+                    FROM Material
+                    ORDER BY Nombre";
 
                 using (SqlCommand cmd =
                     new SqlCommand(consulta, cn))
@@ -222,22 +267,25 @@ namespace ReciclajeNacional.Pages
                 {
                     while (reader.Read())
                     {
-                        Materiales.Add(new Material
-                        {
-                            IdMaterial =
-                                Convert.ToInt32(
-                                    reader["IdMaterial"]),
+                        Materiales.Add(
+                            new Material
+                            {
+                                IdMaterial =
+                                    Convert.ToInt32(
+                                        reader["IdMaterial"]),
 
-                            Nombre =
-                                reader["Nombre"].ToString() ?? "",
+                                Nombre =
+                                    reader["Nombre"]
+                                    .ToString() ?? "",
 
-                            Descripcion =
-                                reader["Descripcion"].ToString() ?? "",
+                                Descripcion =
+                                    reader["Descripcion"]
+                                    .ToString() ?? "",
 
-                            PuntosPorKg =
-                                Convert.ToDecimal(
-                                    reader["PuntosPorKg"])
-                        });
+                                PuntosPorKg =
+                                    Convert.ToDecimal(
+                                        reader["PuntosPorKg"])
+                            });
                     }
                 }
             }

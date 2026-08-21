@@ -8,7 +8,9 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["Title"] - Reciclaje Nacional</title>
+    <title>
+        @ViewData["Title"] - Reciclaje Nacional
+    </title>
 
     <link rel="stylesheet"
           href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -17,182 +19,113 @@
           href="~/css/site.css"
           asp-append-version="true" />
 
-    <link rel="stylesheet"
-          href="~/Reciclajenacional.styles.css"
-          asp-append-version="true" />
-
-
     <style>
 
-            /* ========================================= */
-            /* PAGINA GENERAL */
-            /* ========================================= */
-
-            html,
             body {
-                background-color: #111111 !important;
-                color: white !important;
                 margin: 0;
-                padding: 0;
+                background-color: #111111;
+                color: white;
             }
 
-
-            /* ========================================= */
-            /* BARRA SUPERIOR */
-            /* ========================================= */
+            main {
+                background-color: #111111;
+                min-height: 75vh;
+            }
 
             .navbar {
-                background-color: #111111 !important;
-                border-bottom: 1px solid #222222 !important;
-                height: 55px;
+                height: 60px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 25px;
+                background-color: #111111;
+                border-bottom: 1px solid #222222;
             }
 
+            .navbar-left {
+                display: flex;
+                align-items: center;
+            }
 
-                .navbar .container {
-                    max-width: 100%;
-                    margin: 0;
-                    padding-left: 25px;
-                    padding-right: 25px;
-                }
-
-
-            /* ========================================= */
-            /* NOMBRE DE LA APLICACION */
-            /* ========================================= */
-
-            .menu-logo {
-                color: white !important;
-                text-decoration: none !important;
+            .logo {
+                color: white;
+                text-decoration: none;
                 font-size: 20px;
                 font-weight: bold;
                 cursor: pointer;
-                display: inline-block;
             }
 
-
-                .menu-logo:hover {
-                    color: #00ff88 !important;
+                .logo:hover {
+                    color: #00ff88;
                 }
 
-
-            /* ========================================= */
-            /* OCULTAR LINKS NORMALES DE BOOTSTRAP */
-            /* ========================================= */
-
-            .navbar-nav {
-                display: none !important;
+            .perfil-link {
+                text-decoration: none;
             }
 
-
-            /* ========================================= */
-            /* BOTON DE PERFIL */
-            /* ========================================= */
-
-            .perfil-boton {
-                position: fixed;
-                top: 15px;
-                right: 25px;
-                width: 55px;
-                height: 55px;
-                border-radius: 50% !important;
-                overflow: hidden;
+            .icono-perfil {
+                width: 48px;
+                height: 48px;
+                border-radius: 50%;
+                object-fit: cover;
                 cursor: pointer;
-                z-index: 1000;
-                display: block;
-                padding: 0;
-                margin: 0;
-                border: none;
-                background: transparent;
             }
 
-
-                .perfil-boton img {
-                    width: 100%;
-                    height: 100%;
-                    display: block;
-                    object-fit: cover;
-                    border-radius: 50% !important;
+                .icono-perfil:hover {
+                    transform: scale(1.05);
                 }
 
-
-            /* ========================================= */
-            /* MENU LATERAL */
-            /* ========================================= */
-
-            .menu-lateral {
+            .menu {
                 position: fixed;
                 top: 0;
                 left: -300px;
                 width: 300px;
                 height: 100vh;
-                background-color: #1b1b1b;
-                box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
+                background-color: #1f1f1f;
                 z-index: 2000;
                 transition: left 0.3s ease;
-                padding-top: 70px;
+                box-shadow: 5px 0 20px rgba(0, 0, 0, 0.5);
             }
 
+            .menu-abierto {
+                left: 0;
+            }
 
-                .menu-lateral.abierto {
-                    left: 0;
-                }
-
-
-                /* ========================================= */
-                /* OPCIONES DEL MENU */
-                /* ========================================= */
-
-                .menu-lateral a {
-                    display: block;
-                    padding: 18px 25px;
-                    color: white;
-                    text-decoration: none;
-                    font-size: 17px;
-                    border-bottom: 1px solid #292929;
-                }
-
-
-                    .menu-lateral a:hover {
-                        background-color: #252525;
-                        color: #00ff88;
-                    }
-
-
-            /* ========================================= */
-            /* TITULO DEL MENU */
-            /* ========================================= */
-
-            .menu-titulo {
+            .menu h2 {
+                padding: 45px 22px 25px;
+                margin: 0;
                 color: #00ff88;
-                font-size: 22px;
-                font-weight: bold;
-                padding: 20px 25px;
                 border-bottom: 1px solid #333333;
             }
 
+            .menu a {
+                display: block;
+                padding: 18px 22px;
+                color: white;
+                text-decoration: none;
+                border-bottom: 1px solid #333333;
+                font-size: 16px;
+            }
 
-            /* ========================================= */
-            /* BOTON CERRAR */
-            /* ========================================= */
+                .menu a:hover {
+                    background-color: #292929;
+                    color: #00ff88;
+                }
 
             .cerrar-menu {
                 position: absolute;
-                top: 18px;
-                right: 20px;
+                right: 18px;
+                top: 12px;
+                border: none;
+                background: none;
                 color: white;
-                font-size: 25px;
+                font-size: 28px;
                 cursor: pointer;
             }
-
 
                 .cerrar-menu:hover {
                     color: #00ff88;
                 }
-
-
-            /* ========================================= */
-            /* FONDO OSCURO DEL MENU */
-            /* ========================================= */
 
             .fondo-menu {
                 display: none;
@@ -205,76 +138,43 @@
                 z-index: 1500;
             }
 
-
-                .fondo-menu.visible {
-                    display: block;
-                }
-
-
-            /* ========================================= */
-            /* CONTENIDO */
-            /* ========================================= */
-
-            main {
-                background-color: #111111 !important;
+            .fondo-visible {
+                display: block;
             }
-
-
-            /* ========================================= */
-            /* FOOTER */
-            /* ========================================= */
 
             footer {
-                background-color: #111111 !important;
-                color: #777777 !important;
-                border-top: 1px solid #222222 !important;
+                padding: 20px;
+                border-top: 1px solid #333333;
+                text-align: center;
+                color: #777777;
+                background-color: #111111;
             }
 
-
                 footer a {
-                    color: #00aaff !important;
+                    color: #00aaff;
                 }
 
     </style>
 
 </head>
 
-
 <body>
 
     @{
-
-        /*
-            Páginas públicas.
-
-            En Login y RegistrarUsuario NO queremos:
-
-            - Menú lateral
-            - Botón de perfil
-            - Barra superior
-        */
-
         bool paginaPublica =
             Context.Request.Path.StartsWithSegments("/Login") ||
             Context.Request.Path.StartsWithSegments("/RegistrarUsuario");
-
     }
 
-
-    <!-- ===================================================== -->
-    <!-- BARRA SUPERIOR -->
-    <!-- ===================================================== -->
     @if (!paginaPublica)
     {
         <header>
 
             <nav class="navbar">
 
-                <div class="container">
+                <div class="navbar-left">
 
-                    <!-- BOTON PARA ABRIR EL MENU -->
-
-                    <a class="menu-logo"
+                    <a class="logo"
                        onclick="abrirMenu()">
 
                         Reciclaje Nacional
@@ -283,185 +183,95 @@
 
                 </div>
 
+                <a asp-page="/MiPerfil"
+                   class="perfil-link">
+
+                    <img src="~/images/fotoperfil.jpg"
+                         class="icono-perfil"
+                         alt="Perfil" />
+
+                </a>
+
             </nav>
 
         </header>
-    }
 
+        <div id="menu"
+             class="menu">
 
-    <!-- ===================================================== -->
-    <!-- MENU LATERAL -->
-    <!-- ===================================================== -->
-    @if (!paginaPublica)
-    {
+            <button class="cerrar-menu"
+                    onclick="cerrarMenu()">
 
-        <!-- FONDO OSCURO -->
+                ×
+
+            </button>
+
+            <h2>
+                Reciclaje Nacional
+            </h2>
+
+            <a asp-page="/Index">
+                Inicio
+            </a>
+
+            <a asp-page="/Centros">
+                Centros de reciclaje
+            </a>
+
+            <a asp-page="/BuscarUsuario">
+                Buscar usuario
+            </a>
+
+            <a asp-page="/Estadisticas">
+                Mis reciclajes
+            </a>
+
+            <a asp-page="/Materiales">
+                Materiales
+            </a>
+
+            <a asp-page="/Recompensas">
+                Recompensas
+            </a>
+
+            <a asp-page="/Canjes">
+                Mis canjes
+            </a>
+
+            <a asp-page="/Registroreciclaje">
+                Registrar reciclaje
+            </a>
+
+        </div>
 
         <div id="fondoMenu"
              class="fondo-menu"
              onclick="cerrarMenu()">
         </div>
+    }
 
+    <main>
 
-        <!-- MENU LATERAL -->
+        @RenderBody()
 
-        <div id="menuLateral"
-             class="menu-lateral">
+    </main>
 
+    @if (!paginaPublica)
+    {
+        <footer>
 
-            <!-- BOTON CERRAR -->
+            <div>
 
-            <span class="cerrar-menu"
-                  onclick="cerrarMenu()">
+                &copy; 2026 - Reciclaje Nacional -
 
-                ×
-
-            </span>
-
-
-            <!-- TITULO -->
-
-            <div class="menu-titulo">
-
-                Reciclaje Nacional
+                <a asp-page="/Privacy">
+                    Privacy
+                </a>
 
             </div>
 
-
-            <!-- INICIO -->
-
-            <a asp-page="/Index">
-
-                Inicio
-
-            </a>
-
-
-            <!-- CENTROS -->
-
-            <a asp-page="/Centros">
-
-                Centros de reciclaje
-
-            </a>
-
-
-            <!-- BUSCAR USUARIO -->
-
-            <a asp-page="/Usuarios">
-
-                Buscar usuario
-
-            </a>
-
-
-            <!-- MIS RECICLAJES -->
-
-            <a asp-page="/Estadisticas">
-
-                Mis reciclajes
-
-            </a>
-
-
-            <!-- MATERIALES -->
-
-            <a asp-page="/Materiales">
-
-                Materiales
-
-            </a>
-
-
-            <!-- RECOMPENSAS -->
-
-            <a asp-page="/Recompensas">
-
-                Recompensas
-
-            </a>
-
-
-            <!-- CANJES -->
-
-            <a asp-page="/Canjes">
-
-                Mis canjes
-
-            </a>
-
-
-            <!-- REGISTRAR RECICLAJE -->
-
-            <a asp-page="/Registrarreciclaje">
-
-                Registrar reciclaje
-
-            </a>
-
-
-        </div>
-
+        </footer>
     }
-
-
-    <!-- ===================================================== -->
-    <!-- BOTON DE PERFIL -->
-    <!-- ===================================================== -->
-    @if (!paginaPublica)
-    {
-
-        <a asp-page="/MiPerfil"
-           class="perfil-boton">
-
-            <img src="~/images/fotoperfil.jpg"
-                 alt="Perfil" />
-
-        </a>
-
-    }
-
-
-    <!-- ===================================================== -->
-    <!-- CONTENIDO DE LA PAGINA -->
-    <!-- ===================================================== -->
-
-    <div class="container">
-
-        <main role="main"
-              class="pb-3">
-
-            @RenderBody()
-
-        </main>
-
-    </div>
-
-
-    <!-- ===================================================== -->
-    <!-- FOOTER -->
-    <!-- ===================================================== -->
-
-    <footer class="border-top footer text-muted">
-
-        <div class="container">
-
-            &copy; 2026 - Reciclaje Nacional -
-
-            <a asp-page="/Privacy">
-
-                Privacy
-
-            </a>
-
-        </div>
-
-    </footer>
-
-
-    <!-- ===================================================== -->
-    <!-- SCRIPTS -->
-    <!-- ===================================================== -->
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
@@ -471,41 +281,36 @@
             asp-append-version="true">
     </script>
 
-
     @if (!paginaPublica)
     {
-
         <script>
 
             function abrirMenu() {
 
             document
-            .getElementById("menuLateral")
-            .classList.add("abierto");
+            .getElementById("menu")
+            .classList.add("menu-abierto");
 
             document
             .getElementById("fondoMenu")
-            .classList.add("visible");
+            .classList.add("fondo-visible");
 
             }
-
 
             function cerrarMenu() {
 
             document
-            .getElementById("menuLateral")
-            .classList.remove("abierto");
+            .getElementById("menu")
+            .classList.remove("menu-abierto");
 
             document
             .getElementById("fondoMenu")
-            .classList.remove("visible");
+            .classList.remove("fondo-visible");
 
             }
 
         </script>
-
     }
-
 
     @await RenderSectionAsync("Scripts", required: false)
 

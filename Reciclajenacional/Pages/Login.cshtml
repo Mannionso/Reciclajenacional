@@ -12,6 +12,8 @@
 
     <style>
 
+            /* General */
+
             body {
                 margin: 0;
                 padding: 0;
@@ -19,6 +21,8 @@
                 background-color: #111111;
                 color: white;
             }
+
+            /* Contenedor */
 
             .contenedor {
                 width: 450px;
@@ -40,6 +44,8 @@
                 margin-bottom: 30px;
             }
 
+            /* Campos */
+
             .campo {
                 margin-bottom: 20px;
             }
@@ -60,6 +66,8 @@
                     color: white;
                 }
 
+            /* Boton */
+
             .boton {
                 width: 100%;
                 padding: 12px;
@@ -76,6 +84,8 @@
                     background-color: #066bb8;
                 }
 
+            /* Registro */
+
             .registro {
                 text-align: center;
                 margin-top: 20px;
@@ -90,6 +100,8 @@
                     .registro a:hover {
                         text-decoration: underline;
                     }
+
+            /* Error */
 
             .error {
                 margin-bottom: 20px;
@@ -108,7 +120,9 @@
 
     <div class="contenedor">
 
-        <h1>Reciclaje<br />Nacional</h1>
+        <h1>
+            Reciclaje<br />Nacional
+        </h1>
 
         <p class="subtitulo">
             Inicia sesión para continuar
@@ -145,7 +159,8 @@
 
             </div>
 
-            <button type="submit" class="boton">
+            <button type="submit"
+                    class="boton">
                 Iniciar sesión
             </button>
 
@@ -153,7 +168,9 @@
 
         <div class="registro">
 
-            <p>¿No tienes una cuenta?</p>
+            <p>
+                ¿No tienes una cuenta?
+            </p>
 
             <a asp-page="/Usuarios">
                 Registrarse

@@ -5,54 +5,188 @@
     ViewData["Title"] = "Recompensas";
 }
 
-<h1>Recompensas</h1>
+<div class="contenedor-recompensas">
 
-<form method="post">
+    <h1>Recompensas</h1>
 
-    <div>
-        <label>Nombre:</label>
-        <input asp-for="Recompensa.Nombre" />
+    <div class="puntos-usuario">
+        <h2>Mis puntos</h2>
+        <p>@Model.PuntosUsuario puntos</p>
     </div>
 
-    <br />
-
-    <div>
-        <label>Descripción:</label>
-        <input asp-for="Recompensa.Descripcion" />
-    </div>
-
-    <br />
-
-    <div>
-        <label>Puntos necesarios:</label>
-        <input asp-for="Recompensa.PuntosNecesarios" type="number" />
-    </div>
-
-    <br />
-
-    <button type="submit">Registrar Recompensa</button>
-
-</form>
-
-<hr />
-
-<h2>Recompensas disponibles</h2>
-
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Puntos necesarios</th>
-    </tr>
-
-    @foreach (var recompensa in Model.Recompensas)
+    @if (TempData["MensajeCanje"] != null)
     {
-        <tr>
-            <td>@recompensa.IdRecompensa</td>
-            <td>@recompensa.Nombre</td>
-            <td>@recompensa.Descripcion</td>
-            <td>@recompensa.PuntosNecesarios</td>
-        </tr>
+        <div class="mensaje">
+            @TempData["MensajeCanje"]
+        </div>
     }
-</table>
+
+    <h2>Recompensas disponibles</h2>
+
+    <div class="recompensas">
+
+        @foreach (var recompensa in Model.Recompensas)
+        {
+            <div class="tarjeta-recompensa">
+
+                <div class="icono-recompensa">
+                    🎁
+                </div>
+
+                <h3>@recompensa.Nombre</h3>
+
+                <p class="descripcion">
+                    @recompensa.Descripcion
+                </p>
+
+                <p class="puntos">
+                    @recompensa.PuntosNecesarios puntos
+                </p>
+
+                @if (Model.PuntosUsuario >= recompensa.PuntosNecesarios)
+                {
+                    <form method="post"
+                          asp-page-handler="Canjear">
+
+                        <input type="hidden"
+                               name="idRecompensa"
+                               value="@recompensa.IdRecompensa" />
+
+                        <button type="submit"
+                                class="boton-canjear">
+                            Canjear
+                        </button>
+
+                    </form>
+                }
+                else
+                {
+                    <button class="boton-deshabilitado"
+                            disabled>
+                        Puntos insuficientes
+                    </button>
+                }
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
+<style>
+
+    .contenedor-recompensas {
+        max-width: 1100px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+        .contenedor-recompensas h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+    .puntos-usuario {
+        text-align: center;
+        padding: 20px;
+        margin-bottom: 30px;
+        border-radius: 12px;
+        background: #1f1f1f;
+        border: 1px solid #444;
+    }
+
+        .puntos-usuario h2 {
+            margin-bottom: 10px;
+        }
+
+        .puntos-usuario p {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+    .mensaje {
+        text-align: center;
+        padding: 15px;
+        margin-bottom: 25px;
+        border-radius: 10px;
+        background: #183d25;
+        border: 1px solid #2e7d46;
+        font-size: 18px;
+    }
+
+    .recompensas {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .tarjeta-recompensa {
+        padding: 25px;
+        border-radius: 15px;
+        border: 1px solid #444;
+        background: #1a1a1a;
+        text-align: center;
+    }
+
+    .icono-recompensa {
+        font-size: 45px;
+        margin-bottom: 10px;
+    }
+
+    .tarjeta-recompensa h3 {
+        font-size: 24px;
+        margin-bottom: 12px;
+    }
+
+    .descripcion {
+        min-height: 45px;
+        margin-bottom: 15px;
+    }
+
+    .puntos {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .boton-canjear {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        background: #198754;
+        color: white;
+    }
+
+        .boton-canjear:hover {
+            background: #157347;
+        }
+
+    .boton-deshabilitado {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        background: #555;
+        color: #ccc;
+    }
+
+    @@media (max-width: 768px) {
+
+        .recompensas {
+            grid-template-columns: 1fr;
+        }
+
+        .contenedor-recompensas {
+            margin: 20px auto;
+            padding: 15px;
+        }
+    }
+
+</style>

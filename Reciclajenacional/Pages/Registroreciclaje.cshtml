@@ -1,53 +1,156 @@
 ﻿@page
-@model ReciclajeNacional.Pages.RegistroreciclajeModel
+@model ReciclajeNacional.Pages.RecompensasModel
 
 @{
-    ViewData["Title"] = "Registrar Reciclaje";
+    ViewData["Title"] = "Recompensas";
 }
 
-<h1>Registrar Reciclaje</h1>
+<div class="contenedor-recompensas">
 
-<form method="post">
+    <h1>Recompensas</h1>
 
-    <div>
-        <label>Material:</label>
+    <p class="descripcion">
+        Canjea tus puntos por diferentes recompensas.
+    </p>
 
-        <select asp-for="Registro.IdMaterial" required>
-            <option value="">Seleccione un material</option>
-
-            @foreach (var material in Model.Materiales)
-            {
-                <option value="@material.IdMaterial">
-                    @material.Nombre - @material.PuntosPorKg puntos/Kg
-                </option>
-            }
-        </select>
-
-        <span asp-validation-for="Registro.IdMaterial"></span>
+    <div class="puntos">
+        <span>Mis puntos</span>
+        <strong>@Model.PuntosUsuario</strong>
     </div>
 
-    <br />
+    @if (TempData["MensajeCanje"] != null)
+    {
+        <div class="mensaje">
+            @TempData["MensajeCanje"]
+        </div>
+    }
 
-    <div>
-        <label>Cantidad en Kg:</label>
+    <div class="recompensas">
 
-        <input asp-for="Registro.CantidadKg"
-               type="number"
-               step="0.01"
-               min="0.01"
-               required />
+        @foreach (var recompensa in Model.Recompensas)
+        {
+            <div class="tarjeta-recompensa">
 
-        <span asp-validation-for="Registro.CantidadKg"></span>
+                <h2>@recompensa.Nombre</h2>
+
+                <p>
+                    @recompensa.Descripcion
+                </p>
+
+                <div class="puntos-recompensa">
+                    @recompensa.PuntosNecesarios puntos
+                </div>
+
+                <form method="post"
+                      asp-page-handler="Canjear">
+
+                    <input type="hidden"
+                           name="idRecompensa"
+                           value="@recompensa.IdRecompensa" />
+
+                    <button type="submit"
+                            class="boton-canjear">
+                        Canjear
+                    </button>
+
+                </form>
+
+            </div>
+        }
+
     </div>
 
-    <br />
+</div>
 
-    <button type="submit">
-        Registrar Reciclaje
-    </button>
+<style>
 
-</form>
+    .contenedor-recompensas {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+    }
 
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
+        .contenedor-recompensas h1 {
+            margin-bottom: 5px;
+        }
+
+    .descripcion {
+        color: #aaa;
+        margin-bottom: 25px;
+    }
+
+    .puntos {
+        background: #1f1f1f;
+        border: 1px solid #333;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+        .puntos strong {
+            font-size: 24px;
+        }
+
+    .mensaje {
+        background: #1f1f1f;
+        border: 1px solid #00c853;
+        border-radius: 10px;
+        padding: 18px;
+        margin-bottom: 25px;
+    }
+
+    .recompensas {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .tarjeta-recompensa {
+        background: #1f1f1f;
+        border: 1px solid #333;
+        border-radius: 12px;
+        padding: 25px;
+    }
+
+        .tarjeta-recompensa h2 {
+            margin-top: 0;
+            margin-bottom: 12px;
+        }
+
+        .tarjeta-recompensa p {
+            color: #aaa;
+            min-height: 45px;
+        }
+
+    .puntos-recompensa {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 20px 0;
+    }
+
+    .boton-canjear {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 7px;
+        background: #00b956;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .boton-canjear:hover {
+            background: #009f4a;
+        }
+
+    @@media (max-width: 768px) {
+        .recompensas {
+            grid-template-columns: 1fr;
+        }
+    }
+
+</style>

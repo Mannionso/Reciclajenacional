@@ -1,29 +1,116 @@
 ﻿@page
 @model ReciclajeNacional.Pages.CanjesModel
 
-<h1>Canjes</h1>
+@{
+    ViewData["Title"] = "Mis Canjes";
+}
 
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID Canje</th>
-            <th>ID Usuario</th>
-            <th>ID Recompensa</th>
-            <th>Fecha</th>
-            <th>Puntos Utilizados</th>
-        </tr>
-    </thead>
+<div class="contenedor-canjes">
 
-    <tbody>
-        @foreach (var canje in Model.Canjes)
-        {
-            <tr>
-                <td>@canje.IdCanje</td>
-                <td>@canje.IdUsuario</td>
-                <td>@canje.IdRecompensa</td>
-                <td>@canje.Fecha</td>
-                <td>@canje.PuntosUtilizados</td>
-            </tr>
+    <h1>Mis Canjes</h1>
+
+    <p class="descripcion">
+        Aquí puedes ver las recompensas que has canjeado.
+    </p>
+
+    @if (Model.Canjes.Count > 0)
+    {
+        <div class="tabla-container">
+
+            <table class="tabla-canjes">
+
+                <thead>
+                    <tr>
+                        <th>Recompensa</th>
+                        <th>Fecha</th>
+                        <th>Puntos utilizados</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var canje in Model.Canjes)
+                    {
+                        <tr>
+                            <td>
+                                Recompensa #@canje.IdRecompensa
+                            </td>
+
+                            <td>
+                                @canje.Fecha.ToString("dd/MM/yyyy HH:mm")
+                            </td>
+
+                            <td>
+                                @canje.PuntosUtilizados puntos
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+    }
+    else
+    {
+        <div class="sin-canjes">
+            <h2>Aún no tienes canjes</h2>
+
+            <p>
+                Cuando canjees una recompensa,
+                aparecerá aquí.
+            </p>
+        </div>
+    }
+
+</div>
+
+<style>
+
+    .contenedor-canjes {
+        max-width: 1000px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+
+        .contenedor-canjes h1 {
+            text-align: center;
+            margin-bottom: 10px;
         }
-    </tbody>
-</table>
+
+    .descripcion {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .tabla-container {
+        overflow-x: auto;
+    }
+
+    .tabla-canjes {
+        width: 100%;
+        border-collapse: collapse;
+        background: #1a1a1a;
+    }
+
+        .tabla-canjes th,
+        .tabla-canjes td {
+            padding: 15px;
+            border: 1px solid #444;
+            text-align: center;
+        }
+
+        .tabla-canjes th {
+            background: #222;
+        }
+
+    .sin-canjes {
+        text-align: center;
+        padding: 50px 20px;
+        border: 1px solid #444;
+        border-radius: 12px;
+        background: #1a1a1a;
+    }
+
+</style>

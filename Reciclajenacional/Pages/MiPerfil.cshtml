@@ -15,49 +15,57 @@
             Información de tu cuenta
         </p>
 
-        <!-- Información del usuario -->
+        <!-- INFORMACIÓN -->
 
         <div class="dato">
             <span>Nombre</span>
-            <strong>@Model.Nombre</strong>
+            <strong>@Model.Usuario.Nombre</strong>
         </div>
 
         <div class="dato">
             <span>Correo</span>
-            <strong>@Model.Correo</strong>
+            <strong>@Model.Usuario.Correo</strong>
         </div>
 
         <div class="dato">
             <span>Provincia</span>
-            <strong>@Model.Provincia</strong>
+            <strong>@Model.Usuario.Provincia</strong>
         </div>
 
         <div class="dato">
             <span>Puntos</span>
-            <strong>@Model.Puntos</strong>
+            <strong>@Model.Usuario.Puntos</strong>
         </div>
 
-        <!-- Botones -->
+        <div class="dato">
+            <span>Centro de reciclaje</span>
+            <strong>@Model.NombreCentro</strong>
+        </div>
+
+        <!-- BOTONES -->
 
         <div class="botones-perfil">
 
-            <a asp-page="/Index" class="btn-volver">
+            <a asp-page="/Index"
+               class="btn-volver">
                 Volver al Home
             </a>
 
-            <a asp-page="/EditarPerfil" class="btn-editar">
+            <a asp-page="/EditarPerfil"
+               class="btn-editar">
                 Editar perfil
             </a>
 
         </div>
 
-        <!-- Cerrar sesión -->
+        <!-- CERRAR SESIÓN -->
 
         <form method="post"
               asp-page-handler="CerrarSesion"
               class="form-cerrar">
 
-            <button type="submit" class="btn-cerrar">
+            <button type="submit"
+                    class="btn-cerrar">
                 Cerrar sesión
             </button>
 
@@ -69,12 +77,12 @@
 
 <style>
 
+    /* CONTENEDOR */
+
     body {
         background-color: #111111;
         color: white;
     }
-
-    /* Contenedor */
 
     .perfil-container {
         min-height: 75vh;
@@ -85,10 +93,10 @@
         background-color: #111111;
     }
 
-    /* Tarjeta */
+    /* TARJETA */
 
     .perfil-card {
-        width: 410px;
+        width: 450px;
         background-color: #1f1f1f;
         padding: 35px 32px;
         border-radius: 12px;
@@ -108,12 +116,13 @@
         margin-bottom: 30px;
     }
 
-    /* Datos */
+    /* DATOS */
 
     .dato {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 20px;
         padding: 15px 0;
         border-bottom: 1px solid #3a3a3a;
     }
@@ -126,9 +135,10 @@
         .dato strong {
             color: white;
             font-size: 15px;
+            text-align: right;
         }
 
-    /* Botones */
+    /* BOTONES */
 
     .botones-perfil {
         display: flex;
@@ -166,7 +176,7 @@
             color: white;
         }
 
-    /* Cerrar sesión */
+    /* CERRAR SESIÓN */
 
     .form-cerrar {
         margin-top: 15px;

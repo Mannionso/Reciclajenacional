@@ -1,67 +1,500 @@
 ﻿@page
 @model ReciclajeNacional.Pages.CentrosModel
 
-@{
-    ViewData["Title"] = "Centros de Reciclaje";
-}
+<!DOCTYPE html>
+<html lang="es">
 
-<h1>Centros de Reciclaje</h1>
+<head>
 
-<form method="post">
+    <meta charset="utf-8" />
 
-    <div>
-        <label>Nombre:</label>
-        <input asp-for="Centro.Nombre" />
+    <title>Centros de reciclaje</title>
+
+    <style>
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                font-family: Arial, sans-serif;
+                background-color: #111111;
+                color: white;
+            }
+
+            .centros-container {
+                width: 90%;
+                max-width: 1200px;
+                margin: 40px auto;
+            }
+
+            .titulo {
+                text-align: center;
+                margin-bottom: 10px;
+                font-size: 36px;
+            }
+
+            .subtitulo {
+                text-align: center;
+                color: #bbbbbb;
+                margin-bottom: 35px;
+            }
+
+            /* Filtros */
+
+            .filtros {
+                background-color: #1f1f1f;
+                padding: 25px;
+                border-radius: 10px;
+                margin-bottom: 35px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            }
+
+            .filtros-form {
+                display: grid;
+                grid-template-columns: 1fr 1fr auto;
+                gap: 15px;
+                align-items: end;
+            }
+
+            .campo {
+                display: flex;
+                flex-direction: column;
+            }
+
+                .campo label {
+                    margin-bottom: 7px;
+                    font-weight: bold;
+                }
+
+                .campo input,
+                .campo select {
+                    padding: 11px;
+                    border-radius: 5px;
+                    border: 1px solid #555555;
+                    background-color: #333333;
+                    color: white;
+                    font-size: 14px;
+                }
+
+            .boton {
+                padding: 11px 22px;
+                border: none;
+                border-radius: 5px;
+                background-color: #087fdb;
+                color: white;
+                font-size: 15px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+                .boton:hover {
+                    background-color: #066bb8;
+                }
+
+            .boton-limpiar {
+                display: inline-block;
+                margin-top: 15px;
+                color: #4da3ff;
+                text-decoration: none;
+            }
+
+                .boton-limpiar:hover {
+                    text-decoration: underline;
+                }
+
+            /* Tarjetas */
+
+            .centros-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+            }
+
+            .centro-card {
+                background-color: #1f1f1f;
+                border-radius: 10px;
+                padding: 25px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+                border: 1px solid #2f2f2f;
+            }
+
+                .centro-card h2 {
+                    margin-top: 0;
+                    margin-bottom: 10px;
+                    font-size: 22px;
+                }
+
+            .provincia {
+                display: inline-block;
+                padding: 5px 10px;
+                border-radius: 20px;
+                background-color: #087fdb;
+                color: white;
+                font-size: 13px;
+                margin-bottom: 15px;
+            }
+
+            .dato {
+                padding: 10px 0;
+                border-bottom: 1px solid #333333;
+            }
+
+                .dato:last-child {
+                    border-bottom: none;
+                }
+
+                .dato span {
+                    display: block;
+                    color: #888888;
+                    font-size: 13px;
+                    margin-bottom: 5px;
+                }
+
+                .dato strong {
+                    color: #eeeeee;
+                    font-weight: normal;
+                    line-height: 1.5;
+                }
+
+            .boton-detalles {
+                display: block;
+                width: 100%;
+                margin-top: 20px;
+                padding: 11px;
+                text-align: center;
+                text-decoration: none;
+                background-color: #087fdb;
+                color: white;
+                border-radius: 5px;
+                font-weight: bold;
+            }
+
+                .boton-detalles:hover {
+                    background-color: #066bb8;
+                }
+
+            /* Detalles */
+
+            .detalle {
+                margin-top: 35px;
+                background-color: #1f1f1f;
+                border-radius: 10px;
+                padding: 30px;
+                border: 1px solid #333333;
+            }
+
+                .detalle h2 {
+                    margin-top: 0;
+                    margin-bottom: 20px;
+                }
+
+            .detalle-dato {
+                padding: 15px 0;
+                border-bottom: 1px solid #333333;
+            }
+
+                .detalle-dato:last-child {
+                    border-bottom: none;
+                }
+
+                .detalle-dato span {
+                    display: block;
+                    color: #888888;
+                    margin-bottom: 6px;
+                    font-size: 13px;
+                }
+
+                .detalle-dato strong {
+                    color: #eeeeee;
+                    font-weight: normal;
+                    line-height: 1.5;
+                }
+
+            .sin-resultados {
+                background-color: #1f1f1f;
+                padding: 30px;
+                text-align: center;
+                border-radius: 10px;
+                color: #bbbbbb;
+            }
+
+            /* Responsive */
+
+            @@media (max-width: 900px) {
+
+                .centros-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .filtros-form {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @@media (max-width: 600px) {
+
+                .centros-container {
+                    width: 94%;
+                }
+
+                .titulo {
+                    font-size: 28px;
+                }
+
+                .centros-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="centros-container">
+
+        <h1 class="titulo">
+            Centros de reciclaje
+        </h1>
+
+        <p class="subtitulo">
+            Encuentra centros de reciclaje y recuperación de materiales.
+        </p>
+
+
+        <!-- FILTROS -->
+
+        <div class="filtros">
+
+            <form method="get" class="filtros-form">
+
+                <div class="campo">
+
+                    <label>
+                        Buscar
+                    </label>
+
+                    <input type="text"
+                           name="Busqueda"
+                           value="@Model.Busqueda"
+                           placeholder="Nombre o ubicación" />
+
+                </div>
+
+
+                <div class="campo">
+
+                    <label>
+                        Provincia
+                    </label>
+
+                    <select name="Provincia">
+
+                        <option value="Todas">
+                            Todas las provincias
+                        </option>
+
+                        <option value="San José"
+                                selected="@(Model.Provincia == "San José")">
+                            San José
+                        </option>
+
+                        <option value="Alajuela"
+                                selected="@(Model.Provincia == "Alajuela")">
+                            Alajuela
+                        </option>
+
+                        <option value="Cartago"
+                                selected="@(Model.Provincia == "Cartago")">
+                            Cartago
+                        </option>
+
+                        <option value="Heredia"
+                                selected="@(Model.Provincia == "Heredia")">
+                            Heredia
+                        </option>
+
+                        <option value="Guanacaste"
+                                selected="@(Model.Provincia == "Guanacaste")">
+                            Guanacaste
+                        </option>
+
+                        <option value="Puntarenas"
+                                selected="@(Model.Provincia == "Puntarenas")">
+                            Puntarenas
+                        </option>
+
+                        <option value="Limón"
+                                selected="@(Model.Provincia == "Limón")">
+                            Limón
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button type="submit"
+                        class="boton">
+                    Buscar
+                </button>
+
+            </form>
+
+
+            <a asp-page="/Centros"
+               class="boton-limpiar">
+                Limpiar filtros
+            </a>
+
+        </div>
+
+
+        <!-- CENTROS -->
+        @if (Model.Centros.Count > 0)
+        {
+
+            <div class="centros-grid">
+
+                @foreach (var centro in Model.Centros)
+                {
+
+                    <div class="centro-card">
+
+                        <h2>
+                            @centro.Nombre
+                        </h2>
+
+                        <div class="provincia">
+                            @centro.Provincia
+                        </div>
+
+
+                        <div class="dato">
+
+                            <span>
+                                Ubicación
+                            </span>
+
+                            <strong>
+                                @centro.Ubicacion
+                            </strong>
+
+                        </div>
+
+
+                        <div class="dato">
+
+                            <span>
+                                Horario
+                            </span>
+
+                            <strong>
+                                @centro.Horario
+                            </strong>
+
+                        </div>
+
+
+                        <a asp-page="/Centros"
+                           asp-route-id="@centro.Id"
+                           class="boton-detalles">
+
+                            Más información
+
+                        </a>
+
+                    </div>
+
+                }
+
+            </div>
+
+        }
+        else
+        {
+
+            <div class="sin-resultados">
+
+                No se encontraron centros de reciclaje con los criterios seleccionados.
+
+            </div>
+
+        }
+
+
+        <!-- INFORMACIÓN DEL CENTRO SELECCIONADO -->
+        @if (Model.CentroSeleccionado != null)
+        {
+
+            <div class="detalle">
+
+                <h2>
+                    @Model.CentroSeleccionado.Nombre
+                </h2>
+
+
+                <div class="detalle-dato">
+
+                    <span>
+                        Provincia
+                    </span>
+
+                    <strong>
+                        @Model.CentroSeleccionado.Provincia
+                    </strong>
+
+                </div>
+
+
+                <div class="detalle-dato">
+
+                    <span>
+                        Ubicación exacta
+                    </span>
+
+                    <strong>
+                        @Model.CentroSeleccionado.Ubicacion
+                    </strong>
+
+                </div>
+
+
+                <div class="detalle-dato">
+
+                    <span>
+                        Horario
+                    </span>
+
+                    <strong>
+                        @Model.CentroSeleccionado.Horario
+                    </strong>
+
+                </div>
+
+
+                <div class="detalle-dato">
+
+                    <span>
+                        Materiales recibidos
+                    </span>
+
+                    <strong>
+                        @Model.CentroSeleccionado.Materiales
+                    </strong>
+
+                </div>
+
+            </div>
+
+        }
+
     </div>
 
-    <br />
+</body>
 
-    <div>
-        <label>Provincia:</label>
-        <input asp-for="Centro.Provincia" />
-    </div>
-
-    <br />
-
-    <div>
-        <label>Dirección:</label>
-        <input asp-for="Centro.Direccion" />
-    </div>
-
-    <br />
-
-    <div>
-        <label>Horario:</label>
-        <input asp-for="Centro.Horario" />
-    </div>
-
-    <br />
-
-    <button type="submit">Registrar Centro</button>
-
-</form>
-
-<hr />
-
-<h2>Centros registrados</h2>
-
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Provincia</th>
-        <th>Dirección</th>
-        <th>Horario</th>
-    </tr>
-
-    @foreach (var centro in Model.Centros)
-    {
-        <tr>
-            <td>@centro.IdCentro</td>
-            <td>@centro.Nombre</td>
-            <td>@centro.Provincia</td>
-            <td>@centro.Direccion</td>
-            <td>@centro.Horario</td>
-        </tr>
-    }
-</table>
+</html>

@@ -1,0 +1,181 @@
+﻿@page
+@model ReciclajeNacional.Pages.BuscarUsuarioModel
+
+@{
+    ViewData["Title"] = "Buscar usuario";
+}
+
+<div class="buscar-container">
+
+    <div class="buscar-card">
+
+        <h1>Buscar usuario</h1>
+
+        <p class="subtitulo">
+            Busca usuarios registrados en Reciclaje Nacional
+        </p>
+
+        <form method="get" class="form-busqueda">
+
+            <input type="text"
+                   name="busqueda"
+                   placeholder="Ingrese nombre o correo"
+                   class="campo-busqueda" />
+
+            <button type="submit" class="boton">
+                Buscar
+            </button>
+
+        </form>
+
+    </div>
+
+    @if (Model.Usuarios.Count > 0)
+    {
+        <div class="resultados">
+
+            @foreach (var usuario in Model.Usuarios)
+            {
+                <div class="usuario-card">
+
+                    <div class="dato">
+                        <span>Nombre</span>
+                        <strong>@usuario.Nombre</strong>
+                    </div>
+
+                    <div class="dato">
+                        <span>Correo</span>
+                        <strong>@usuario.Correo</strong>
+                    </div>
+
+                    <div class="dato">
+                        <span>Provincia</span>
+                        <strong>@usuario.Provincia</strong>
+                    </div>
+
+                    <div class="dato">
+                        <span>Puntos</span>
+                        <strong>@usuario.Puntos</strong>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+    else if (!string.IsNullOrWhiteSpace(Model.Busqueda))
+    {
+        <div class="mensaje">
+            No se encontraron usuarios.
+        </div>
+    }
+
+</div>
+
+<style>
+
+    .buscar-container {
+        min-height: 75vh;
+        padding: 50px 20px;
+        background-color: #111111;
+    }
+
+    .buscar-card {
+        width: 500px;
+        max-width: 100%;
+        margin: 0 auto 30px auto;
+        padding: 35px;
+        background-color: #1f1f1f;
+        border-radius: 10px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    h1 {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .subtitulo {
+        text-align: center;
+        color: #cccccc;
+        margin-bottom: 30px;
+    }
+
+    .form-busqueda {
+        display: flex;
+        gap: 10px;
+    }
+
+    .campo-busqueda {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #555555;
+        border-radius: 5px;
+        background-color: #333333;
+        color: white;
+        box-sizing: border-box;
+    }
+
+        .campo-busqueda::placeholder {
+            color: #999999;
+        }
+
+    .boton {
+        padding: 12px 25px;
+        border: none;
+        border-radius: 5px;
+        background-color: #087fdb;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+        .boton:hover {
+            background-color: #066bb8;
+        }
+
+    .resultados {
+        width: 700px;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .usuario-card {
+        background-color: #1f1f1f;
+        padding: 20px 25px;
+        margin-bottom: 15px;
+        border-radius: 8px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .dato {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid #3a3a3a;
+    }
+
+        .dato:last-child {
+            border-bottom: none;
+        }
+
+        .dato span {
+            color: #bbbbbb;
+        }
+
+        .dato strong {
+            color: white;
+        }
+
+    .mensaje {
+        width: 500px;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+        background-color: #1f1f1f;
+        border-radius: 8px;
+        color: #cccccc;
+    }
+
+</style>

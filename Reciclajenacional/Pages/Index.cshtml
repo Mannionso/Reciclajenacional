@@ -1,130 +1,83 @@
 ﻿@page
-@model ReciclajeNacional.Pages.IndexModel
+@using Microsoft.AspNetCore.Http
 
 @{
     ViewData["Title"] = "Inicio";
-}
 
+    string nombreUsuario = HttpContext.Session.GetString("NombreUsuario") ?? "Emilio Suarez";
+}
 
 <div class="home-container">
 
-    <!-- ========================================= -->
-    <!-- TITULO PRINCIPAL -->
-    <!-- ========================================= -->
+    <div class="home-content">
 
-    <div class="titulo">
+        <h1>Reciclaje Nacional</h1>
 
-        <h1>♻️ Reciclaje Nacional</h1>
+        <h2>Bienvenido, @nombreUsuario</h2>
 
-
-        @if (!string.IsNullOrEmpty(Model.NombreUsuario))
-        {
-            <h2>
-                Bienvenido, @Model.NombreUsuario
-            </h2>
-        }
-        else
-        {
-            <h2>
-                Reciclar es construir un mejor futuro
-            </h2>
-        }
-
-
-        <p>
-            Recicla tus materiales, gana puntos y obtén recompensas
-            mientras ayudas al medio ambiente.
+        <p class="descripcion">
+            Recicla tus materiales, gana puntos y obtén recompensas mientras ayudas al medio ambiente.
         </p>
 
-    </div>
+        <!-- BOTONES PRINCIPALES -->
 
+        <div class="botones-home">
 
-    <!-- ========================================= -->
-    <!-- BOTONES PRINCIPALES -->
-    <!-- ========================================= -->
+            <a asp-page="/Registroreciclaje"
+               class="btn-home">
+                Registrar reciclaje
+            </a>
 
-    <div class="botones">
+            <a asp-page="/Recompensas"
+               class="btn-home">
+                Ver recompensas
+            </a>
 
-        <a asp-page="/Registrareciclaje"
-           class="btn">
-
-            Registrar reciclaje
-
-        </a>
-
-
-        <a asp-page="/Recompensas"
-           class="btn">
-
-            Ver recompensas
-
-        </a>
-
-
-        <a asp-page="/Canjes"
-           class="btn">
-
-            Mis canjes
-
-        </a>
-
-    </div>
-
-
-    <!-- ========================================= -->
-    <!-- TARJETAS -->
-    <!-- ========================================= -->
-
-    <div class="tarjetas">
-
-
-        <!-- TARJETA RECICLA -->
-
-        <div class="tarjeta">
-
-            <h3>
-                Recicla
-            </h3>
-
-            <p>
-                Lleva tus materiales reciclables a nuestros
-                centros de reciclaje registrados.
-            </p>
+            <a asp-page="/Canjes"
+               class="btn-home">
+                Mis canjes
+            </a>
 
         </div>
 
+        <!-- TARJETAS -->
 
-        <!-- TARJETA PUNTOS -->
+        <div class="tarjetas-home">
 
-        <div class="tarjeta">
+            <div class="tarjeta">
 
-            <h3>
-                Gana puntos
-            </h3>
+                <h3>Recicla</h3>
 
-            <p>
-                Obtén puntos dependiendo de la cantidad y tipo
-                de material que recicles.
-            </p>
+                <p>
+                    Lleva tus materiales reciclables a nuestros centros
+                    de reciclaje registrados.
+                </p>
+
+            </div>
+
+            <div class="tarjeta">
+
+                <h3>Gana puntos</h3>
+
+                <p>
+                    Obtén puntos dependiendo de la cantidad y tipo de
+                    material que recicles.
+                </p>
+
+            </div>
+
+            <div class="tarjeta">
+
+                <h3>Obtén recompensas</h3>
+
+                <p>
+                    Utiliza tus puntos para canjear diferentes recompensas
+                    disponibles.
+                </p>
+
+            </div>
 
         </div>
-
-
-        <!-- TARJETA RECOMPENSAS -->
-
-        <div class="tarjeta">
-
-            <h3>
-                Obtén recompensas
-            </h3>
-
-            <p>
-                Utiliza tus puntos para canjear diferentes
-                recompensas disponibles.
-            </p>
-
-        </div>
-
 
     </div>
 
@@ -133,119 +86,122 @@
 
 <style>
 
-    /* ========================================= */
-    /* PAGINA */
-    /* ========================================= */
-
     body {
         background-color: #111111;
         color: white;
     }
 
-
-    /* ========================================= */
-    /* CONTENEDOR PRINCIPAL */
-    /* ========================================= */
-
     .home-container {
         min-height: 75vh;
-        text-align: center;
-        padding: 60px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding: 55px 20px;
         background-color: #111111;
     }
 
-
-    /* ========================================= */
-    /* TITULO */
-    /* ========================================= */
-
-    .titulo h1 {
-        font-size: 48px;
-        margin-bottom: 10px;
-        color: white;
+    .home-content {
+        width: 100%;
+        max-width: 900px;
+        text-align: center;
     }
 
+        .home-content h1 {
+            font-size: 44px;
+            margin-bottom: 8px;
+            color: white;
+        }
 
-    .titulo h2 {
-        font-size: 27px;
-        margin-bottom: 20px;
-        color: white;
-    }
+        .home-content h2 {
+            font-size: 25px;
+            margin-bottom: 20px;
+            color: white;
+        }
 
-
-    .titulo p {
-        font-size: 17px;
-        margin-bottom: 30px;
+    .descripcion {
+        font-size: 16px;
         color: #cccccc;
+        margin-bottom: 32px;
     }
 
 
-    /* ========================================= */
     /* BOTONES */
-    /* ========================================= */
 
-    .botones {
+    .botones-home {
         display: flex;
         justify-content: center;
-        gap: 14px;
-        margin-bottom: 50px;
-        flex-wrap: wrap;
+        gap: 13px;
+        margin-bottom: 48px;
     }
 
-
-    .btn {
-        background: #087fdb;
+    .btn-home {
+        display: inline-block;
+        padding: 15px 25px;
+        background-color: #087fdb;
         color: white;
-        padding: 14px 25px;
-        border-radius: 6px;
         text-decoration: none;
+        border-radius: 6px;
         font-weight: bold;
+        transition: background-color 0.2s;
     }
 
-
-        .btn:hover {
-            background: #066bb8;
+        .btn-home:hover {
+            background-color: #066bb8;
             color: white;
         }
 
 
-    /* ========================================= */
     /* TARJETAS */
-    /* ========================================= */
 
-    .tarjetas {
-        display: flex;
-        justify-content: center;
+    .tarjetas-home {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
-        flex-wrap: wrap;
     }
 
-
     .tarjeta {
-        width: 250px;
-        min-height: 210px;
-        padding: 30px 25px;
-        background: #1f1f1f;
-        color: white;
+        background-color: #1f1f1f;
         border-radius: 10px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        padding: 45px 25px;
+        min-height: 185px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
     }
 
-
         .tarjeta h3 {
-            font-size: 28px;
-            margin-bottom: 15px;
+            font-size: 27px;
+            margin-bottom: 18px;
             color: white;
         }
 
-
         .tarjeta p {
             font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.7;
             color: #cccccc;
+            margin: 0;
+            max-width: 250px;
         }
+
+
+    /* PANTALLAS PEQUEÑAS */
+
+    @@media (max-width: 800px) {
+
+        .tarjetas-home {
+            grid-template-columns: 1fr;
+        }
+
+        .botones-home {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-home {
+            width: 220px;
+        }
+    }
 
 </style>

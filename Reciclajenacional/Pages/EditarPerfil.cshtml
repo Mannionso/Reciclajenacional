@@ -1,0 +1,173 @@
+﻿@page
+@model ReciclajeNacional.Pages.EditarPerfilModel
+
+@{
+    ViewData["Title"] = "Editar perfil";
+}
+
+<div class="editar-container">
+
+    <div class="editar-card">
+
+        <h1>Editar perfil</h1>
+
+        <p class="subtitulo">
+            Modifica la información de tu cuenta
+        </p>
+
+        @if (!string.IsNullOrEmpty(Model.Mensaje))
+        {
+            <div class="mensaje">
+                @Model.Mensaje
+            </div>
+        }
+
+        <form method="post">
+
+            <div class="campo">
+                <label asp-for="Nombre">Nombre</label>
+                <input asp-for="Nombre" />
+            </div>
+
+            <div class="campo">
+                <label asp-for="Correo">Correo</label>
+                <input asp-for="Correo" type="email" />
+            </div>
+
+            <div class="campo">
+                <label asp-for="Provincia">Provincia</label>
+                <input asp-for="Provincia" />
+            </div>
+
+            <div class="botones">
+
+                <a asp-page="/MiPerfil"
+                   class="btn-cancelar">
+                    Cancelar
+                </a>
+
+                <button type="submit"
+                        class="btn-guardar">
+                    Guardar cambios
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<style>
+
+    body {
+        background-color: #111111;
+        color: white;
+    }
+
+    .editar-container {
+        min-height: 75vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 40px 20px;
+        background-color: #111111;
+    }
+
+    .editar-card {
+        width: 450px;
+        background-color: #1f1f1f;
+        padding: 35px 32px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.45);
+    }
+
+        .editar-card h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+    .subtitulo {
+        text-align: center;
+        color: #cccccc;
+        margin-bottom: 30px;
+    }
+
+    .campo {
+        margin-bottom: 20px;
+    }
+
+        .campo label {
+            display: block;
+            color: #bbbbbb;
+            margin-bottom: 8px;
+            font-size: 15px;
+        }
+
+        .campo input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid #444444;
+            border-radius: 6px;
+            background-color: #111111;
+            color: white;
+            font-size: 15px;
+        }
+
+            .campo input:focus {
+                outline: none;
+                border-color: #087fdb;
+            }
+
+    .botones {
+        display: flex;
+        gap: 10px;
+        margin-top: 25px;
+    }
+
+    .btn-cancelar,
+    .btn-guardar {
+        flex: 1;
+        padding: 13px;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: bold;
+        font-size: 15px;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-cancelar {
+        background-color: #666666;
+        color: white;
+    }
+
+        .btn-cancelar:hover {
+            background-color: #555555;
+            color: white;
+        }
+
+    .btn-guardar {
+        background-color: #087fdb;
+        color: white;
+    }
+
+        .btn-guardar:hover {
+            background-color: #066bb8;
+        }
+
+    .mensaje {
+        background-color: #244d2b;
+        color: white;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+</style>

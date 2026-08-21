@@ -39,31 +39,36 @@ namespace ReciclajeNacional.Pages
                         WHERE Correo = @Correo
                         AND Contrasena = @Contrasena";
 
-                    using (SqlCommand comando = new SqlCommand(consulta, conexion))
+                    using (SqlCommand comando =
+                           new SqlCommand(consulta, conexion))
                     {
-                        comando.Parameters.AddWithValue("@Correo", Correo);
-                        comando.Parameters.AddWithValue("@Contrasena", Contrasena);
+                        comando.Parameters.AddWithValue(
+                            "@Correo",
+                            Correo);
 
-                        using (SqlDataReader lector = comando.ExecuteReader())
+                        comando.Parameters.AddWithValue(
+                            "@Contrasena",
+                            Contrasena);
+
+                        using (SqlDataReader lector =
+                               comando.ExecuteReader())
                         {
                             if (lector.Read())
                             {
-                                // Guardamos los datos del usuario en la sesión
                                 HttpContext.Session.SetInt32(
                                     "IdUsuario",
-                                    lector.GetInt32(0)
-                                );
+                                    lector.GetInt32(0));
 
                                 HttpContext.Session.SetString(
                                     "NombreUsuario",
-                                    lector.GetString(1)
-                                );
+                                    lector.GetString(1));
 
                                 return RedirectToPage("/Index");
                             }
                             else
                             {
-                                Mensaje = "Correo o contraseña incorrectos.";
+                                Mensaje =
+                                    "Correo o contraseña incorrectos.";
                             }
                         }
                     }
@@ -71,7 +76,8 @@ namespace ReciclajeNacional.Pages
             }
             catch (Exception ex)
             {
-                Mensaje = "Error al iniciar sesión: " + ex.Message;
+                Mensaje =
+                    "Error al iniciar sesión: " + ex.Message;
             }
 
             return Page();

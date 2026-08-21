@@ -1,15 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Data.SqlClient;
 using ReciclajeNacional.POO;
 
 namespace ReciclajeNacional.Pages
 {
-    public class UsuariosModel : PageModel
+    public class BuscarUsuarioModel : PageModel
     {
         private readonly IConfiguration _configuration;
 
-        public UsuariosModel(IConfiguration configuration)
+        public BuscarUsuarioModel(IConfiguration configuration)
         {
             _configuration = configuration;
         }
